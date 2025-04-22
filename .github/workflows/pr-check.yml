@@ -29,12 +29,6 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY_IMAGE }}
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -47,9 +41,6 @@ jobs:
         with:
           push: false
           platforms: ${{ matrix.platform }}
-          labels: ${{ steps.meta.outputs.labels }}
-          tags: ${{ env.REGISTRY_IMAGE }}
-          outputs: type=image,push-by-digest=true,name-canonical=true,push=true
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
