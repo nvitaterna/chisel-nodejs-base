@@ -25,7 +25,7 @@ WORKDIR /builder/cmd/chisel
 RUN go install
 
 FROM ubuntu:${UBUNTU_TAG} AS installer
-ARG UBUNTU_RELEASE
+ARG UBUNTU_TAG
 ARG CACERTIFICATES_VERSION
 ARG FILE_VERSION
 WORKDIR /setup
@@ -42,7 +42,7 @@ RUN mkdir -p /rootfs/var/lib/dpkg \
   && ./chisel-wrapper \
   --generate-dpkg-status /rootfs/var/lib/dpkg/status \
   -- \
-  --release ubuntu-${UBUNTU_RELEASE} \
+  --release ubuntu-${UBUNTU_TAG} \
   --root /rootfs/ \
   ca-certificates_data \
   tzdata_zoneinfo \
