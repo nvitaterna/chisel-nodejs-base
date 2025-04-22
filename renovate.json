@@ -12,7 +12,7 @@
       "matchStrings": [
         "#\\s*renovate:\\s*?(suite=(?<suite>.*?))?\\s*?(arch=(?<arch>.*?))?\\s*?(versioning=(?<versioning>.*?))?\\s*depName=(?<depName>.*?)?\\sARG .*?_VERSION=\"(?<currentValue>.*)\""
       ],
-      "registryUrlTemplate": "http://archive.ubuntu.com/ubuntu?suite={{suite}}&components=main,multiverse,universe&binaryArch={{arch}}",
+      "registryUrlTemplate": "{{#if (equals arch 'amd64')}}https://archive.ubuntu.com/ubuntu{{else}}https://ports.ubuntu.com/ubuntu-ports{{/if}}?suite={{suite}}&components=universe,multiverse,main,restricted&binaryArch={{arch}}",
       "datasourceTemplate": "deb",
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
