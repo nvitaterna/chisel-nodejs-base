@@ -14,7 +14,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build on multiple platforms
+    name: Multiplatform build and test
     strategy:
       fail-fast: false
       matrix:
