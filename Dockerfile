@@ -1,5 +1,7 @@
 ARG UBUNTU_TAG="24.10"
 
+ARG UBUNTU_CHISEL_VERSION="24.10"
+
 # renovate: suite=oracular arch=amd64 versioning=loose depName=golang
 ARG GOLANG_AMD64_VERSION="2:1.23~1"
 
@@ -50,6 +52,7 @@ RUN go install
 
 FROM ubuntu:${UBUNTU_TAG} AS installer-linux-amd64
 ARG UBUNTU_TAG
+ARG UBUNTU_CHISEL_VERSION
 ARG CACERTIFICATES_AMD64_VERSION
 ARG FILE_AMD64_VERSION
 WORKDIR /setup
@@ -66,7 +69,7 @@ RUN mkdir -p /rootfs/var/lib/dpkg \
   && ./chisel-wrapper \
   --generate-dpkg-status /rootfs/var/lib/dpkg/status \
   -- \
-  --release ubuntu-${UBUNTU_TAG} \
+  --release ubuntu-${UBUNTU_CHISEL_VERSION} \
   --root /rootfs/ \
   ca-certificates_data \
   tzdata_zoneinfo \
@@ -93,7 +96,7 @@ RUN mkdir -p /rootfs/var/lib/dpkg \
   && ./chisel-wrapper \
   --generate-dpkg-status /rootfs/var/lib/dpkg/status \
   -- \
-  --release ubuntu-${UBUNTU_TAG} \
+  --release ubuntu-${UBUNTU_CHISEL_VERSION} \
   --root /rootfs/ \
   ca-certificates_data \
   tzdata_zoneinfo \
