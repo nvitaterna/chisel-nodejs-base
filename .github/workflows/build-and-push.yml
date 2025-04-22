@@ -55,10 +55,14 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ env.REGISTRY_IMAGE }}
           outputs: type=image,push-by-digest=true,name-canonical=true,push=true
+          # check default scope cache, then check for release scope cache
           cache-from: |
             type=gha
-            type=gha,scope=main
-          cache-to: type=gha,mode=max
+            type=gha,scope=release-${{matrix.platform}}
+          # cache to default scope and release scope
+          cache-to: |
+            type=gha,mode=max
+            type=gha,mode=max,scope=release-${{matrix.platform}}
 
       - name: Export digest
         run: |
