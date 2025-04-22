@@ -51,7 +51,6 @@ WORKDIR /builder/cmd/chisel
 RUN go install
 
 FROM ubuntu:${UBUNTU_TAG} AS installer-linux-amd64
-ARG UBUNTU_TAG
 ARG UBUNTU_CHISEL_VERSION
 ARG CACERTIFICATES_AMD64_VERSION
 ARG FILE_AMD64_VERSION
@@ -79,7 +78,7 @@ RUN mkdir -p /rootfs/var/lib/dpkg \
   base-files_chisel
 
 FROM ubuntu:${UBUNTU_TAG} AS installer-linux-arm64
-ARG UBUNTU_TAG
+ARG UBUNTU_CHISEL_VERSION
 ARG CACERTIFICATES_ARM64_VERSION
 ARG FILE_ARM64_VERSION
 WORKDIR /setup
