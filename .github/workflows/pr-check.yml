@@ -42,10 +42,13 @@ jobs:
         with:
           push: false
           platforms: ${{ matrix.platform }}
+          # check default scope cache, then check for release scope cache
           cache-from: |
             type=gha
-            type=gha,scope=main
-          cache-to: type=gha,mode=max
+            type=gha,scope=release-${{matrix.platform}}
+          # cache to default scope
+          cache-to: |
+            type=gha,mode=max
 
       # todo
       # - name: Test
