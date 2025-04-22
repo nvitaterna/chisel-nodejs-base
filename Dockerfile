@@ -1,21 +1,21 @@
 ARG UBUNTU_TAG="24.10"
 
-# renovate: suite=oracular component=main arch=amd64 versioning=loose depName=golang
+# renovate: suite=oracular arch=amd64 versioning=loose depName=golang
 ARG GOLANG_AMD64_VERSION="2:1.23~1"
 
-# renovate: suite=oracular component=main arch=amd64 versioning=loose depName=ca-certificates
+# renovate: suite=oracular arch=amd64 versioning=loose depName=ca-certificates
 ARG CACERTIFICATES_AMD64_VERSION="20240203"
 
-# renovate: suite=oracular component=main arch=amd64 versioning=loose depName=file
+# renovate: suite=oracular arch=amd64 versioning=loose depName=file
 ARG FILE_AMD64_VERSION="1:5.45-3build1"
 
-# renovate: suite=oracular component=main arch=arm64 versioning=loose depName=golang
+# renovate: suite=oracular arch=arm64 versioning=loose depName=golang
 ARG GOLANG_ARM64_VERSION="2:1.23~1"
 
-# renovate: suite=oracular component=main arch=arm64 versioning=loose depName=ca-certificates
+# renovate: suite=oracular arch=arm64 versioning=loose depName=ca-certificates
 ARG CACERTIFICATES_ARM64_VERSION="20240203"
 
-# renovate: suite=oracular component=main arch=arm64 versioning=loose depName=file
+# renovate: suite=oracular arch=arm64 versioning=loose depName=file
 ARG FILE_ARM64_VERSION="1:5.45-3build1"
 
 FROM ubuntu:${UBUNTU_TAG} AS builder-linux-amd64

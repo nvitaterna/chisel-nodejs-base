@@ -10,9 +10,9 @@
         "^Dockerfile$"
       ],
       "matchStrings": [
-        "#\\s*renovate:\\s*?(suite=(?<suite>.*?))?\\s*?(component=(?<component>.*?))?\\s*?(arch=(?<arch>.*?))?\\s*?(versioning=(?<versioning>.*?))?\\s*depName=(?<depName>.*?)?\\sARG .*?_VERSION=\"(?<currentValue>.*)\""
+        "#\\s*renovate:\\s*?(suite=(?<suite>.*?))?\\s*?(arch=(?<arch>.*?))?\\s*?(versioning=(?<versioning>.*?))?\\s*depName=(?<depName>.*?)?\\sARG .*?_VERSION=\"(?<currentValue>.*)\""
       ],
-      "registryUrlTemplate": "http://archive.ubuntu.com/ubuntu/dists/{{suite}}/{{component}}/binary-{{arch}}",
+      "registryUrlTemplate": "http://archive.ubuntu.com/ubuntu?suite={{suite}}&components=main,multiverse,universe&binaryArch={{arch}}",
       "datasourceTemplate": "deb",
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
@@ -25,7 +25,7 @@
       "matchPackageNames": [
         "ubuntu"
       ],
-      "versioning": "ubuntu"
+      "versioning": "docker"
     }
   ]
 }
