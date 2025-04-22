@@ -1,9 +1,15 @@
-ARG UBUNTU_RELEASE=24.10
+ARG UBUNTU_TAG=24.10
+
+# renovate: suite=oracular component=main versioning=loose depName=golang
 ARG GOLANG_VERSION=2:1.23~1
+
+# renovate: suite=oracular component=main versioning=loose depName=ca-certificates
 ARG CACERTIFICATES_VERSION=20240203
+
+# renovate: suite=oracular component=main versioning=loose depName=file
 ARG FILE_VERSION=1:5.45-3build1
 
-FROM ubuntu:${UBUNTU_RELEASE} AS builder
+FROM ubuntu:${UBUNTU_TAG} AS builder
 ARG GOLANG_VERSION
 ARG CACERTIFICATES_VERSION
 WORKDIR /builder
@@ -18,7 +24,7 @@ ADD https://github.com/canonical/chisel.git .
 WORKDIR /builder/cmd/chisel
 RUN go install
 
-FROM ubuntu:${UBUNTU_RELEASE} AS installer
+FROM ubuntu:${UBUNTU_TAG} AS installer
 ARG UBUNTU_RELEASE
 ARG CACERTIFICATES_VERSION
 ARG FILE_VERSION
