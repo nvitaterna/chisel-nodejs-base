@@ -1,0 +1,28 @@
+name: Build and publish to Docker Hub
+
+on:
+  push:
+    branches: main
+    paths:
+      - README.md
+
+env:
+  REGISTRY_IMAGE: nvitaterna/chisel-nodejs-base
+
+concurrency: production
+
+jobs:
+  dockerHubDescription:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ env.REGISTRY_IMAGE }}
+          short-description: ${{ github.event.repository.description }}
+          enable-url-completion: true
