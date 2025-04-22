@@ -10,9 +10,9 @@
         "^Dockerfile$"
       ],
       "matchStrings": [
-        "#\\s*renovate:\\s*?(suite=(?<suite>.*?))?\\s*?(component=(?<component>.*?))?\\s*?(versioning=(?<versioning>.*?))?\\s*depName=(?<depName>.*?)?\\sENV .*?_VERSION=\"(?<currentValue>.*)\""
+        "#\\s*renovate:\\s*?(suite=(?<suite>.*?))?\\s*?(component=(?<component>.*?))?\\s*?(arch=(?<arch>.*?))?\\s*?(versioning=(?<versioning>.*?))?\\s*depName=(?<depName>.*?)?\\sENV .*?_VERSION=\"(?<currentValue>.*)\""
       ],
-      "registryUrlTemplate": "http://archive.ubuntu.com/ubuntu/dists/{{suite}}/{{component}}/binary-amd64",
+      "registryUrlTemplate": "http://archive.ubuntu.com/ubuntu/dists/{{suite}}/{{component}}/binary-{{arch}}",
       "datasourceTemplate": "deb",
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
