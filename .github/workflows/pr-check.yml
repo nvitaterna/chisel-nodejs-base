@@ -45,12 +45,7 @@ jobs:
         with:
           push: false
           platforms: ${{ matrix.platform }}
-          # check default scope cache, then check for release scope cache
-          cache-from: |
-            type=gha
-          # cache to default scope
-          cache-to: |
-            type=gha,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:buildcache
 
       # todo
       # - name: Test
