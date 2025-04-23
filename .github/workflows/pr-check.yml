@@ -45,7 +45,7 @@ jobs:
         with:
           push: false
           platforms: ${{ matrix.platform }}
-          cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:buildcache
+          cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:latest
 
       # todo
       # - name: Test
