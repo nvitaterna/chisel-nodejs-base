@@ -55,12 +55,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ env.REGISTRY_IMAGE }}
           outputs: type=image,push-by-digest=true,name-canonical=true,push=true
-          # check default scope cache, then check for release scope cache
-          cache-from: |
-            type=gha
-          # cache to default scope and release scope
-          cache-to: |
-            type=gha,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:buildcache,mode=max
 
       - name: Export digest
         run: |
