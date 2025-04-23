@@ -58,11 +58,9 @@ jobs:
           # check default scope cache, then check for release scope cache
           cache-from: |
             type=gha
-            type=gha,scope=release-${{matrix.platform}}
           # cache to default scope and release scope
           cache-to: |
             type=gha,mode=max
-            type=gha,mode=max,scope=release-${{matrix.platform}}
 
       - name: Export digest
         run: |
