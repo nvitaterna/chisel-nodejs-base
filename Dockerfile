@@ -1,10 +1,5 @@
 ARG UBUNTU_TAG="oracular-20250225@sha256:aadf9a3f5eda81295050d13dabe851b26a67597e424a908f25a63f589dfed48f"
 
-# renovate: arch=amd64 versioning=loose depName=file
-ARG FILE_amd64_VERSION="1:5.45-3build1"
-# renovate: arch=arm64 versioning=loose depName=file
-ARG FILE_arm64_VERSION="1:5.45-3build1"
-
 FROM ubuntu:${UBUNTU_TAG} AS setup
 ARG TARGETARCH
 
