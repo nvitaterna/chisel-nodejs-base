@@ -52,8 +52,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ vars.REGISTRY_IMAGE }}
           outputs: type=image,push-by-digest=true,name-canonical=true,push=true
-          cache-from: type=registry,ref=${{ vars.REGISTRY_IMAGE }}:buildcache
-          cache-to: type=registry,ref=${{ vars.REGISTRY_IMAGE }}:buildcache,mode=max
+          cache-from: type=registry,ref=${{ vars.REGISTRY_IMAGE }}:buildcache-${{ matrix.platform }}
+          cache-to: type=registry,ref=${{ vars.REGISTRY_IMAGE }}:buildcache-${{ matrix.platform }},mode=max
 
       - name: Export digest
         run: |
