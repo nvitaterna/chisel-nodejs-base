@@ -1,5 +1,5 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "$schema": "https://docs.renovatebot.com/renovate-schema.`json`",
   "extends": [
     "config:best-practices"
   ],
@@ -10,11 +10,31 @@
         "^Dockerfile$"
       ],
       "matchStrings": [
-        "#\\s*renovate:\\s*?(arch=(?<arch>.*?))?\\s*?(versioning=(?<versioning>.*?))?\\s*depName=(?<depName>.*?)?\\sARG .*?_VERSION=\"(?<currentValue>.*)\""
+        "#\\s*renovate-apt-docker:\\s*?(arch=(?<arch>.*?))?\\s*?(versioning=(?<versioning>.*?))?\\s*depName=(?<depName>.*?)?\\sARG .*?_VERSION=\"(?<currentValue>.*)\""
       ],
       "registryUrlTemplate": "{{#if (equals arch 'amd64')}}https://archive.ubuntu.com/ubuntu{{else}}https://ports.ubuntu.com/ubuntu-ports{{/if}}?suite=oracular&components=universe,multiverse,main,restricted&binaryArch={{arch}}",
       "datasourceTemplate": "deb",
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "^Dockerfile$"
+      ],
+      "matchStrings": [
+        "#\\s*renovate-chisel:\\s*depName=(?<depName>.*?)?\\sARG .*?_VERSION=\"(?<currentValue>.*)\""
+      ],
+      "versioningTemplate": "loose",
+      "datasourceTemplate": "custom.github-branches"
     }
-  ]
+  ],
+  "customDatasources": {
+    "github-branches": {
+      "defaultRegistryUrlTemplate": "https://api.github.com/repos/canonical/chisel-releases/branches",
+      "format": "json",
+      "transformTemplates": [
+        "{ \"releases\": $filter($, function($v) { name[$contains(\"ubuntu\")] }).$map($, function($v) { {\"version\":$v.name.$split('-')[1],\"sourceUrl\":$join([\"https://github.com/canonical/chisel-releases/tree/\",$v.name]),\"digest\":$v.commit.sha} } ),\"homepage\": \"https://github.com/canonical/chisel-releases\" }"
+      ]
+    }
+  }
 }
