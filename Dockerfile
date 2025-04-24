@@ -3,21 +3,22 @@ ARG UBUNTU_TAG="oracular-20250225@sha256:aadf9a3f5eda81295050d13dabe851b26a67597
 FROM ubuntu:${UBUNTU_TAG} AS setup
 ARG TARGETARCH
 
-ARG UBUNTU_CHISEL_VERSION="24.10"
+# renovate-chisel: depName=canonical-chisel-releases
+ARG UBUNTU_CHISEL_VERSION="24.04"
 
-# renovate: arch=amd64 versioning=loose depName=golang
+# renovate-apt-docker: arch=amd64 versioning=loose depName=golang
 ARG GOLANG_amd64_VERSION="2:1.23~1"
-# renovate: arch=arm64 versioning=loose depName=golang
+# renovate-apt-docker: arch=arm64 versioning=loose depName=golang
 ARG GOLANG_arm64_VERSION="2:1.23~1"
 
-# renovate: arch=amd64 versioning=loose depName=ca-certificates
+# renovate-apt-docker: arch=amd64 versioning=loose depName=ca-certificates
 ARG CACERTIFICATES_amd64_VERSION="20240203"
-# renovate: arch=arm64 versioning=loose depName=ca-certificates
+# renovate-apt-docker: arch=arm64 versioning=loose depName=ca-certificates
 ARG CACERTIFICATES_arm64_VERSION="20240203"
 
-# renovate: arch=amd64 versioning=loose depName=file
+# renovate-apt-docker: arch=amd64 versioning=loose depName=file
 ARG FILE_amd64_VERSION="1:5.45-3build1"
-# renovate: arch=arm64 versioning=loose depName=file
+# renovate-apt-docker: arch=arm64 versioning=loose depName=file
 ARG FILE_arm64_VERSION="1:5.45-3build1"
 
 # install dependencies
