@@ -20,6 +20,6 @@ jobs:
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: ${{ vars.REGISTRY_IMAGE }}
+          repository: nvitaterna/${{ vars.REGISTRY_IMAGE }}
           short-description: ${{ github.event.repository.description }}
           enable-url-completion: true
