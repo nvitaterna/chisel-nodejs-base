@@ -55,10 +55,7 @@ jobs:
         with:
           push: false
           platforms: ${{ matrix.platform.platform }}
-          cache-to: type=registry,ref=nvitaterna/buildcache:${{vars.REGISTRY_IMAGE}}-${{ matrix.platform.pair }}-${{steps.safeRefName.outputs.REF}},mode=max
-          cache-from: |
-            type=registry,ref=nvitaterna/buildcache:${{vars.REGISTRY_IMAGE}}-${{ matrix.platform.pair }}-${{steps.safeRefName.outputs.REF}}
-            type=registry,ref=nvitaterna/buildcache:${{vars.REGISTRY_IMAGE}}-${{ matrix.platform.pair }}
+          cache-from: type=registry,ref=nvitaterna/buildcache:${{vars.REGISTRY_IMAGE}}-${{ matrix.platform.pair }}
 
       # todo
       # - name: Test
