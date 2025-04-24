@@ -11,9 +11,6 @@ on:
       - Dockerfile
       - .github/workflows/build-and-push.yml
 
-env:
-  REGISTRY_IMAGE: nvitaterna/chisel-nodejs-base
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -45,7 +42,7 @@ jobs:
         with:
           push: false
           platforms: ${{ matrix.platform }}
-          cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:buildcache
+          cache-from: type=registry,ref=${{ vars.REGISTRY_IMAGE }}:buildcache-${{ matrix.platform }}
 
       # todo
       # - name: Test
