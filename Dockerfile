@@ -1,68 +1,52 @@
 ARG UBUNTU_TAG="oracular-20250225@sha256:aadf9a3f5eda81295050d13dabe851b26a67597e424a908f25a63f589dfed48f"
 
+# renovate: arch=amd64 versioning=loose depName=file
+ARG FILE_amd64_VERSION="1:5.45-3build1"
+# renovate: arch=arm64 versioning=loose depName=file
+ARG FILE_arm64_VERSION="1:5.45-3build1"
+
+FROM ubuntu:${UBUNTU_TAG} AS setup
+ARG TARGETARCH
+
 ARG UBUNTU_CHISEL_VERSION="24.10"
 
 # renovate: arch=amd64 versioning=loose depName=golang
-ARG GOLANG_AMD64_VERSION="2:1.23~1"
+ARG GOLANG_amd64_VERSION="2:1.23~1"
+# renovate: arch=arm64 versioning=loose depName=golang
+ARG GOLANG_arm64_VERSION="2:1.23~1"
 
 # renovate: arch=amd64 versioning=loose depName=ca-certificates
-ARG CACERTIFICATES_AMD64_VERSION="20240203"
+ARG CACERTIFICATES_amd64_VERSION="20240203"
+# renovate: arch=arm64 versioning=loose depName=ca-certificates
+ARG CACERTIFICATES_arm64_VERSION="20240203"
 
 # renovate: arch=amd64 versioning=loose depName=file
-ARG FILE_AMD64_VERSION="1:5.45-3build1"
-
-# renovate: arch=arm64 versioning=loose depName=golang
-ARG GOLANG_ARM64_VERSION="2:1.23~1"
-
-# renovate: arch=arm64 versioning=loose depName=ca-certificates
-ARG CACERTIFICATES_ARM64_VERSION="20240203"
-
+ARG FILE_amd64_VERSION="1:5.45-3build1"
 # renovate: arch=arm64 versioning=loose depName=file
-ARG FILE_ARM64_VERSION="1:5.45-3build1"
+ARG FILE_arm64_VERSION="1:5.45-3build1"
 
-FROM ubuntu:${UBUNTU_TAG} AS builder-linux-amd64
-ARG GOLANG_AMD64_VERSION
-ARG CACERTIFICATES_AMD64_VERSION
-WORKDIR /builder
-RUN apt-get update \
+# install dependencies
+RUN GOLANG_VERSION=$(eval "echo \$GOLANG_${TARGETARCH}_VERSION") \
+  && CACERTIFICATES_VERSION=$(eval "echo \$CACERTIFICATES_${TARGETARCH}_VERSION") \
+  && FILE_VERSION=$(eval "echo \$FILE_${TARGETARCH}_VERSION") \
+  && apt-get update \
   -q \
   && apt-get install \
   -y \
   --no-install-recommends \
-  golang=${GOLANG_AMD64_VERSION} \
-  ca-certificates=${CACERTIFICATES_AMD64_VERSION}
-ADD https://github.com/canonical/chisel.git .
-WORKDIR /builder/cmd/chisel
-RUN go install
+  golang=$GOLANG_VERSION \
+  ca-certificates=$CACERTIFICATES_VERSION \
+  file=${FILE_VERSION}
 
-FROM ubuntu:${UBUNTU_TAG} AS builder-linux-arm64
-ARG GOLANG_ARM64_VERSION
-ARG CACERTIFICATES_ARM64_VERSION
+# build chisel
 WORKDIR /builder
-RUN apt-get update \
-  -q \
-  && apt-get install \
-  -y \
-  --no-install-recommends \
-  golang=${GOLANG_ARM64_VERSION} \
-  ca-certificates=${CACERTIFICATES_ARM64_VERSION}
 ADD https://github.com/canonical/chisel.git .
 WORKDIR /builder/cmd/chisel
 RUN go install
+RUN ln -sf /root/go/bin/chisel /usr/bin/chisel
 
-FROM ubuntu:${UBUNTU_TAG} AS installer-linux-amd64
-ARG UBUNTU_CHISEL_VERSION
-ARG CACERTIFICATES_AMD64_VERSION
-ARG FILE_AMD64_VERSION
+# create chiseled rootfs
 WORKDIR /setup
-COPY --from=builder-linux-amd64 /root/go/bin/chisel /usr/bin
-RUN apt-get update \
-  -q \
-  && apt-get install \
-  -y \
-  --no-install-recommends \
-  ca-certificates=${CACERTIFICATES_AMD64_VERSION} \
-  file=${FILE_AMD64_VERSION}
 ADD https://github.com/canonical/rocks-toolbox.git .
 RUN mkdir -p /rootfs/var/lib/dpkg \
   && ./chisel-wrapper \
@@ -76,35 +60,6 @@ RUN mkdir -p /rootfs/var/lib/dpkg \
   base-files_release-info \
   base-files_base \
   base-files_chisel
-
-FROM ubuntu:${UBUNTU_TAG} AS installer-linux-arm64
-ARG UBUNTU_CHISEL_VERSION
-ARG CACERTIFICATES_ARM64_VERSION
-ARG FILE_ARM64_VERSION
-WORKDIR /setup
-COPY --from=builder-linux-arm64 /root/go/bin/chisel /usr/bin
-RUN apt-get update \
-  -q \
-  && apt-get install \
-  -y \
-  --no-install-recommends \
-  ca-certificates=${CACERTIFICATES_ARM64_VERSION} \
-  file=${FILE_ARM64_VERSION}
-ADD https://github.com/canonical/rocks-toolbox.git .
-RUN mkdir -p /rootfs/var/lib/dpkg \
-  && ./chisel-wrapper \
-  --generate-dpkg-status /rootfs/var/lib/dpkg/status \
-  -- \
-  --release ubuntu-${UBUNTU_CHISEL_VERSION} \
-  --root /rootfs/ \
-  ca-certificates_data \
-  tzdata_zoneinfo \
-  libstdc++6_libs \
-  base-files_release-info \
-  base-files_base \
-  base-files_chisel
-
-FROM installer-${TARGETOS}-${TARGETARCH} AS installer
 
 FROM scratch
-COPY --from=installer /rootfs /
+COPY --from=setup /rootfs /
