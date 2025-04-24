@@ -8,12 +8,7 @@ on:
       - Dockerfile
       - .github/workflows/build-and-push.yml
 
-env:
-  REGISTRY_IMAGE: nvitaterna/chisel-nodejs-base
-  # https://github.com/orgs/community/discussions/27194
-  # cannot trigger another action from secrets.GITHUB_TOKEN
-  GITHUB_TOKEN: ${{ secrets.PAT }}
-
+# cannot trigger another action from secrets.GITHUB_TOKEN
 concurrency: production
 jobs:
   tagAndRelease:
@@ -29,7 +24,7 @@ jobs:
         id: tag_version
         uses: mathieudutour/github-tag-action@a22cf08638b34d5badda920f9daf6e72c477b07b # v6.2
         with:
-          github_token: ${{ env.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT }}
 
       - name: Create a GitHub release
         uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1
@@ -37,4 +32,4 @@ jobs:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
-          token: ${{ env.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
