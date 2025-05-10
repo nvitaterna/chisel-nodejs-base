@@ -58,3 +58,12 @@ RUN mkdir -p /rootfs/var/lib/dpkg \
 
 FROM scratch
 COPY --from=setup /rootfs /
+WORKDIR /home
+COPY <<EOF /etc/passwd
+node:x:1000:1000:node:/home/node:
+EOF
+COPY <<EOF /etc/group
+node:x:1000:
+EOF
+USER node
+WORKDIR /home/node
