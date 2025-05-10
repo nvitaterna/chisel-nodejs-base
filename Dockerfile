@@ -7,14 +7,14 @@ ARG TARGETARCH
 ARG UBUNTU_CHISEL_VERSION="25.04"
 
 # renovate-apt-docker: arch=amd64 versioning=loose depName=golang
-ARG GOLANG_amd64_VERSION="2:1.23~1"
+ARG GOLANG_amd64_VERSION="2:1.24~2"
 # renovate-apt-docker: arch=arm64 versioning=loose depName=golang
-ARG GOLANG_arm64_VERSION="2:1.23~1"
+ARG GOLANG_arm64_VERSION="2:1.24~2"
 
 # renovate-apt-docker: arch=amd64 versioning=loose depName=ca-certificates
-ARG CACERTIFICATES_amd64_VERSION="20240203"
+ARG CACERTIFICATES_amd64_VERSION="20241223"
 # renovate-apt-docker: arch=arm64 versioning=loose depName=ca-certificates
-ARG CACERTIFICATES_arm64_VERSION="20240203"
+ARG CACERTIFICATES_arm64_VERSION="20241223"
 
 # renovate-apt-docker: arch=amd64 versioning=loose depName=file
 ARG FILE_amd64_VERSION="1:5.45-3build1"
