@@ -49,6 +49,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           tags: nvitaterna/${{ vars.REGISTRY_IMAGE }}
           outputs: type=image,push-by-digest=true,name-canonical=true,push=true
+          provenance: mode=max
+          sbom: true
           cache-from: type=registry,ref=nvitaterna/buildcache:${{vars.REGISTRY_IMAGE}}-${{ matrix.platform.pair }}
           cache-to: type=registry,ref=nvitaterna/buildcache:${{vars.REGISTRY_IMAGE}}-${{ matrix.platform.pair }},mode=max
 
