@@ -54,8 +54,7 @@ RUN mkdir -p /rootfs/var/lib/dpkg \
   tzdata_zoneinfo \
   libstdc++6_libs \
   base-files_release-info \
-  base-files_base \
-  base-files_chisel
+  base-files_base
 
 FROM scratch
 COPY --from=setup /rootfs /
