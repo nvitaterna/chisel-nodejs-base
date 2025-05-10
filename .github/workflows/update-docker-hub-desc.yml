@@ -1,8 +1,9 @@
-name: Build and publish to Docker Hub
+name: Update Docker Hub Description
 
 on:
   push:
-    branches: main
+    branches:
+      - main
     paths:
       - README.md
 
