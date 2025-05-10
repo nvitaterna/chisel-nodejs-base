@@ -1,12 +1,7 @@
 name: Bump version and create release
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - Dockerfile
-      - .github/workflows/build-and-push.yml
+  workflow_dispatch:
 
 # cannot trigger another action from secrets.GITHUB_TOKEN
 concurrency: production
