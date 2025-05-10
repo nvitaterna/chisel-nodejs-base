@@ -1,20 +1,20 @@
-ARG UBUNTU_TAG="oracular-20250225@sha256:aadf9a3f5eda81295050d13dabe851b26a67597e424a908f25a63f589dfed48f"
+ARG UBUNTU_TAG="plucky-20250415@sha256:9a302811bba2ae9533ddae0b563af29c112f1262329e508f13c0c532d5ba7c19"
 
 FROM ubuntu:${UBUNTU_TAG} AS setup
 ARG TARGETARCH
 
 # renovate-chisel: depName=canonical-chisel-releases
-ARG UBUNTU_CHISEL_VERSION="24.10"
+ARG UBUNTU_CHISEL_VERSION="25.04"
 
 # renovate-apt-docker: arch=amd64 versioning=loose depName=golang
-ARG GOLANG_amd64_VERSION="2:1.23~1"
+ARG GOLANG_amd64_VERSION="2:1.24~2"
 # renovate-apt-docker: arch=arm64 versioning=loose depName=golang
-ARG GOLANG_arm64_VERSION="2:1.23~1"
+ARG GOLANG_arm64_VERSION="2:1.24~2"
 
 # renovate-apt-docker: arch=amd64 versioning=loose depName=ca-certificates
-ARG CACERTIFICATES_amd64_VERSION="20240203"
+ARG CACERTIFICATES_amd64_VERSION="20241223"
 # renovate-apt-docker: arch=arm64 versioning=loose depName=ca-certificates
-ARG CACERTIFICATES_arm64_VERSION="20240203"
+ARG CACERTIFICATES_arm64_VERSION="20241223"
 
 # renovate-apt-docker: arch=amd64 versioning=loose depName=file
 ARG FILE_amd64_VERSION="1:5.45-3build1"
@@ -54,8 +54,7 @@ RUN mkdir -p /rootfs/var/lib/dpkg \
   tzdata_zoneinfo \
   libstdc++6_libs \
   base-files_release-info \
-  base-files_base \
-  base-files_chisel
+  base-files_base
 
 FROM scratch
 COPY --from=setup /rootfs /
