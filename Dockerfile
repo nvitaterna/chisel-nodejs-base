@@ -1,10 +1,10 @@
-ARG UBUNTU_TAG="plucky-20250415@sha256:79efa276fdefa2ee3911db29b0608f8c0561c347ec3f4d4139980d43b168d991"
+ARG UBUNTU_TAG="questing-20251007@sha256:af5be3d16518275dafdb50a567a594d0a8fd2a6cf053892307f1b604e44609f4"
 
 FROM ubuntu:${UBUNTU_TAG} AS setup
 ARG TARGETARCH
 
 # renovate-chisel: depName=canonical-chisel-releases
-ARG UBUNTU_CHISEL_VERSION="25.04"
+ARG UBUNTU_CHISEL_VERSION="25.10"
 
 # renovate-apt-docker: arch=amd64 versioning=loose depName=golang
 ARG GOLANG_amd64_VERSION="2:1.24~2"
@@ -12,14 +12,14 @@ ARG GOLANG_amd64_VERSION="2:1.24~2"
 ARG GOLANG_arm64_VERSION="2:1.24~2"
 
 # renovate-apt-docker: arch=amd64 versioning=loose depName=ca-certificates
-ARG CACERTIFICATES_amd64_VERSION="20241223"
+ARG CACERTIFICATES_amd64_VERSION="20250419"
 # renovate-apt-docker: arch=arm64 versioning=loose depName=ca-certificates
-ARG CACERTIFICATES_arm64_VERSION="20241223"
+ARG CACERTIFICATES_arm64_VERSION="20250419"
 
 # renovate-apt-docker: arch=amd64 versioning=loose depName=file
-ARG FILE_amd64_VERSION="1:5.45-3build1"
+ARG FILE_amd64_VERSION="1:5.46-5build1"
 # renovate-apt-docker: arch=arm64 versioning=loose depName=file
-ARG FILE_arm64_VERSION="1:5.45-3build1"
+ARG FILE_arm64_VERSION="1:5.46-5build1"
 
 # install dependencies
 RUN GOLANG_VERSION=$(eval "echo \$GOLANG_${TARGETARCH}_VERSION") \
