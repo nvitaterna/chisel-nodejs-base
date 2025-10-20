@@ -21,10 +21,16 @@ ARG FILE_amd64_VERSION="1:5.46-5build1"
 # renovate-apt-docker: arch=arm64 versioning=loose depName=file
 ARG FILE_arm64_VERSION="1:5.46-5build1"
 
+# renovate-apt-docker: arch=amd64 versioning=loose depName=libatomic1
+ARG LIBATOMIC_amd64_VERSION="15.2.0-4ubuntu4"
+# renovate-apt-docker: arch=arm64 versioning=loose depName=libatomic1
+ARG LIBATOMIC_arm64_VERSION="15.2.0-4ubuntu4"
+
 # install dependencies
 RUN GOLANG_VERSION=$(eval "echo \$GOLANG_${TARGETARCH}_VERSION") \
   && CACERTIFICATES_VERSION=$(eval "echo \$CACERTIFICATES_${TARGETARCH}_VERSION") \
   && FILE_VERSION=$(eval "echo \$FILE_${TARGETARCH}_VERSION") \
+  && LIBATOMIC_VERSION=$(eval "echo \$LIBATOMIC_${TARGETARCH}_VERSION") \
   && apt-get update \
   -q \
   && apt-get install \
@@ -32,7 +38,8 @@ RUN GOLANG_VERSION=$(eval "echo \$GOLANG_${TARGETARCH}_VERSION") \
   --no-install-recommends \
   golang=$GOLANG_VERSION \
   ca-certificates=$CACERTIFICATES_VERSION \
-  file=${FILE_VERSION}
+  file=${FILE_VERSION} \
+  libatomic1=$LIBATOMIC_VERSION
 
 # build chisel
 WORKDIR /builder
@@ -54,7 +61,8 @@ RUN mkdir -p /rootfs/var/lib/dpkg \
   tzdata_zoneinfo \
   libstdc++6_libs \
   base-files_release-info \
-  base-files_base
+  base-files_base \
+  libatomic1_libs
 
 FROM scratch
 COPY --from=setup /rootfs /
