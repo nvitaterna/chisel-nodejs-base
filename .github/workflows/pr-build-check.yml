@@ -9,7 +9,9 @@ on:
       - synchronize
     paths:
       - Dockerfile
-      - .github/workflows/build-and-push.yml
+      - test/**
+      - .github/workflows/pr-build-check.yml
+      - .github/workflows/build-publish.yml
 
 env:
   # set in ref name step
@@ -54,11 +56,21 @@ jobs:
         uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
         with:
           push: false
+          load: true
+          tags: chisel-nodejs-base:test
           platforms: ${{ matrix.platform.platform }}
           cache-to: type=registry,ref=nvitaterna/buildcache:${{vars.REGISTRY_IMAGE}}-${{ matrix.platform.pair }}-${{steps.safeRefName.outputs.REF}},mode=max
           cache-from: |
             type=registry,ref=nvitaterna/buildcache:${{vars.REGISTRY_IMAGE}}-${{ matrix.platform.pair }}-${{steps.safeRefName.outputs.REF}}
             type=registry,ref=nvitaterna/buildcache:${{vars.REGISTRY_IMAGE}}-${{ matrix.platform.pair }}
 
-      # todo
-      # - name: Test
+      # the base has no shell or node, so run the official node binary on it
+      - name: Test
+        env:
+          PLATFORM: ${{ matrix.platform.platform }}
+        run: |
+          docker buildx build --platform "$PLATFORM" --output type=local,dest=test-node test/
+          docker run --rm --platform "$PLATFORM" \
+            -v "$PWD/test-node/node:/usr/bin/node:ro" \
+            -v "$PWD/test/check.js:/check.js:ro" \
+            chisel-nodejs-base:test /usr/bin/node /check.js
