@@ -1,6 +1,13 @@
 name: Bump version and create release
 
 on:
+  # release whenever a change to the image lands on main (e.g. an automerged
+  # Renovate update), so new base images get published without manual steps
+  push:
+    branches:
+      - main
+    paths:
+      - Dockerfile
   workflow_dispatch:
 
 # cannot trigger another action from secrets.GITHUB_TOKEN
