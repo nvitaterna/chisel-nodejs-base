@@ -4,7 +4,7 @@ FROM ubuntu:${UBUNTU_TAG} AS setup
 ARG TARGETARCH
 
 # renovate-chisel: depName=canonical-chisel-releases
-ARG UBUNTU_CHISEL_VERSION="26.04"
+ARG UBUNTU_CHISEL_VERSION="26.10"
 
 # renovate-apt-docker: arch=amd64 versioning=loose depName=golang
 ARG GOLANG_amd64_VERSION="2:1.26~1"
